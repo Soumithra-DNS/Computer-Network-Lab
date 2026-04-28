@@ -1,26 +1,48 @@
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Server {
     public static void main(String[] args) throws Exception {
 
-        ServerSocket socket = new ServerSocket(7777);
-        System.out.println("Server waiting...");
+        ServerSocket ss = new ServerSocket(7777);
+        System.out.println("Server started...");
 
-        Socket new_socket = socket.accept();
+        Socket s = ss.accept();
+        System.out.println("Client connected");
 
-        DataInputStream dis = new DataInputStream(new_socket.getInputStream());
-        DataOutputStream dos = new DataOutputStream(new_socket.getOutputStream());
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
-        // Receive from client
-        String clientMsg = dis.readUTF();
-        System.out.println("Client says: " + clientMsg);
+        while (true) {
+            String request = dis.readUTF();
 
-        // Send reply to client
-        dos.writeUTF("Hello Client, I am fine!");
+            if (request.equalsIgnoreCase("HI")) {
+                dos.writeUTF("Hello");
+            } 
+            else if (request.equalsIgnoreCase("Date")) {
+                dos.writeUTF("Server Date: " + LocalDate.now());
+            } 
+            else if (request.equalsIgnoreCase("Time")) {
+                dos.writeUTF("Server Time: " + LocalTime.now());
+            } 
+            else if (request.equalsIgnoreCase("IP")) {
+                String ip = InetAddress.getLocalHost().getHostAddress();
+                dos.writeUTF("Server IP: " + ip);
+            } 
+            else if (request.equalsIgnoreCase("exit")) {
+                break;
+            } 
+            else {
+                dos.writeUTF("Invalid Request");
+            }
 
-        socket.close();
-        new_socket.close();
+            dos.flush();
+        }
+
+        s.close();
+        ss.close();
+        System.out.println("Server closed.");
     }
 }
-

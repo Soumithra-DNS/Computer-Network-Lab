@@ -6,14 +6,14 @@ import java.time.LocalTime;
 public class Server {
     public static void main(String[] args) throws Exception {
 
-        ServerSocket ss = new ServerSocket(7777);
+        ServerSocket socket = new ServerSocket(7777);
         System.out.println("Server started...");
 
-        Socket s = ss.accept();
+        Socket new_Socket = socket.accept();
         System.out.println("Client connected");
 
-        DataInputStream dis = new DataInputStream(s.getInputStream());
-        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        DataInputStream dis = new DataInputStream(new_Socket.getInputStream());
+        DataOutputStream dos = new DataOutputStream(new_Socket.getOutputStream());
 
         while (true) {
             String request = dis.readUTF();
@@ -41,8 +41,8 @@ public class Server {
             dos.flush();
         }
 
-        s.close();
-        ss.close();
+        socket.close();
+        new_Socket.close();
         System.out.println("Server closed.");
     }
 }

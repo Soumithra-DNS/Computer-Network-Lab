@@ -9,8 +9,8 @@ public class Server {
 
         Socket new_socket = socket.accept();
 
-        DataInputStream dis = new DataInputStream(s.getInputStream());
-        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        DataInputStream dis = new DataInputStream(new_socket.getInputStream());
+        DataOutputStream dos = new DataOutputStream(new_socket.getOutputStream());
 
         // Receive from client
         String clientMsg = dis.readUTF();

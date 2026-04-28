@@ -1,16 +1,25 @@
-import java.io.DataInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 public class Server {
-     public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         ServerSocket ss = new ServerSocket(7777);
-        Socket s1 = ss.accept();
-        DataInputStream ds1 = new DataInputStream(s1.getInputStream());
-        String msg = (String) ds1.readUTF();
-        System.out.println("Message---- " + msg);
-        ss.close();
+        System.out.println("Server waiting...");
 
+        Socket s = ss.accept();
+
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+
+        // Receive from client
+        String clientMsg = dis.readUTF();
+        System.out.println("Client says: " + clientMsg);
+
+        // Send reply to client
+        dos.writeUTF("Hello Client, I am fine!");
+
+        s.close();
+        ss.close();
     }
 }

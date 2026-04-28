@@ -1,6 +1,8 @@
 package Email;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import javax.net.ssl.*;
 
@@ -11,6 +13,9 @@ public class Email {
     public static void main(String[] args) throws Exception {
         String email = "s2210976136@ru.ac.bd";
         String password = "jiezxjfeecryzcwa";
+
+        String ip = InetAddress.getLocalHost().getHostAddress();
+        String time = LocalDateTime.now().toString();
 
         String user = Base64.getEncoder().encodeToString(email.getBytes());
         String pass = Base64.getEncoder().encodeToString(password.getBytes());
@@ -59,6 +64,9 @@ public class Email {
         send("");
 
         send("This is test email");
+
+        send("IP Address: " + ip);
+        send("System Time: " + time);
 
         send(".");
         read();

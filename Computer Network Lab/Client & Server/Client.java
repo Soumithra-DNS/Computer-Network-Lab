@@ -4,10 +4,10 @@ import java.net.*;
 public class Client {
     public static void main(String[] args) throws Exception {
 
-        Socket s = new Socket("localhost", 7777);
+        Socket socket = new Socket("localhost", 7777);
 
-        DataInputStream dis = new DataInputStream(s.getInputStream());
-        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
         // Send message to server
         dos.writeUTF("How are you Server?");
@@ -16,6 +16,6 @@ public class Client {
         String serverMsg = dis.readUTF();
         System.out.println("Server says: " + serverMsg);
 
-        s.close();
+        socket.close();
     }
 }
